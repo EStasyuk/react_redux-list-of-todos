@@ -2,7 +2,6 @@ import { Loader } from '../Loader';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { RootState } from '../../app/store';
 import { clearCurrentTodo } from '../../features/currentTodo';
-import { Todo } from '../../types/Todo';
 import { User } from '../../types/User';
 import React, { useEffect, useState } from 'react';
 
@@ -16,7 +15,7 @@ export const TodoModal: React.FC = () => {
   useEffect(() => {
     if (!currentTodo?.userId) return;
 
-    //setUser(null);
+    setUser(null);
     setIsLoading(true);
 
     fetch(`https://jsonplaceholder.typicode.com/users/${currentTodo.userId}`)
@@ -64,7 +63,7 @@ export const TodoModal: React.FC = () => {
             )}
             {' by '}
             {isLoading ? (
-              <Loader />
+              <Loader data-cy="loader" />
             ) : user ? (
               <a href={`mailto:${user.email}`}>{user.name}</a>
             ) : (

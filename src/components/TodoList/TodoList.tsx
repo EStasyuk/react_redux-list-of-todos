@@ -1,15 +1,18 @@
 /* eslint-disable */
 import React from 'react';
-//import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentTodo } from '../../features/currentTodo';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCurrentTodo, clearCurrentTodo } from '../../features/currentTodo';
 import { RootState } from '../../app/store';
 //import { Todo } from '../../types/Todo';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+
 
 export const TodoList: React.FC = () => {
   const dispatch = useAppDispatch();
   const todos = useAppSelector((state: RootState) => state.todos);
   const { query, status } = useAppSelector((state: RootState) => state.filter);
+  
+  const currentTodo = useAppSelector((state: RootState) => state.currentTodo);
 
   const filteredTodos = todos.filter(todo => {
     const matchesQuery = todo.title.toLowerCase().includes(query.toLowerCase());
@@ -39,7 +42,7 @@ export const TodoList: React.FC = () => {
             <td>{todo.id}</td>
             <td className="has-text-centered">
               {todo.completed && (
-                <span className="icon has-text-black">
+                <span className="icon has-text-black" data-cy="iconCompleted">
                   <i className="fas fa-check" />
                 </span>
               )}
@@ -55,9 +58,19 @@ export const TodoList: React.FC = () => {
               <button
                 data-cy="selectButton"
                 className="button"
-                onClick={() => dispatch(setCurrentTodo(todo))}
+                onClick={() =>
+                  dispatch(
+                    currentTodo?.id === todo.id
+                      ? clearCurrentTodo()
+                      : setCurrentTodo(todo),
+                  )
+                }
               >
-                👁
+                <span className="icon">
+                  <i
+                    className={`fas ${currentTodo?.id === todo.id ? 'fa-eye-slash' : 'fa-eye'}`}
+                  />
+                </span>
               </button>
             </td>
           </tr>
