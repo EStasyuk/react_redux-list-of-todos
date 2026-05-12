@@ -1,9 +1,7 @@
 /* eslint-disable */
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentTodo, clearCurrentTodo } from '../../features/currentTodo';
 import { RootState } from '../../app/store';
-//import { Todo } from '../../types/Todo';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 
