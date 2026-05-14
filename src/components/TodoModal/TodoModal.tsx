@@ -4,25 +4,20 @@ import { RootState } from '../../app/store';
 import { clearCurrentTodo } from '../../features/currentTodo';
 import { User } from '../../types/User';
 import React, { useEffect, useState } from 'react';
+import { fetchUser } from '../../features/user';
 
 export const TodoModal: React.FC = () => {
   const dispatch = useAppDispatch();
   const currentTodo = useAppSelector((state: RootState) => state.currentTodo);
-
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const { data: user, loading } = useAppSelector(
+    (state: RootState) => state.user,
+  );
 
   useEffect(() => {
-    if (!currentTodo?.userId) return;
-
-    setUser(null);
-    setIsLoading(true);
-
-    fetch(`https://jsonplaceholder.typicode.com/users/${currentTodo.userId}`)
-      .then(res => res.json())
-      .then(data => setUser(data))
-      .finally(() => setIsLoading(false));
-  }, [currentTodo]);
+    if (currentTodo?.userId) {
+      dispatch(fetchUser(currentTodo.userId));
+    }
+  }, [currentTodo, dispatch]);
 
   if (!currentTodo) {
     return null;
@@ -62,7 +57,7 @@ export const TodoModal: React.FC = () => {
               <strong className="has-text-danger">Planned</strong>
             )}
             {' by '}
-            {isLoading ? (
+            {loading ? (
               <Loader data-cy="loader" />
             ) : user ? (
               <a href={`mailto:${user.email}`}>{user.name}</a>
