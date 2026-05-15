@@ -2,8 +2,7 @@ import { Loader } from '../Loader';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { RootState } from '../../app/store';
 import { clearCurrentTodo } from '../../features/currentTodo';
-import { User } from '../../types/User';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { fetchUser } from '../../features/user';
 
 export const TodoModal: React.FC = () => {
@@ -14,7 +13,11 @@ export const TodoModal: React.FC = () => {
   );
 
   useEffect(() => {
-    if (currentTodo?.userId) {
+    console.log('CURRENT TODO:', currentTodo);
+
+    if (currentTodo) {
+      console.log('FETCH USER:', currentTodo.userId);
+
       dispatch(fetchUser(currentTodo.userId));
     }
   }, [currentTodo, dispatch]);

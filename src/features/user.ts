@@ -3,14 +3,16 @@ import { User } from '../types/User';
 
 export const fetchUser = createAsyncThunk<User, number>(
   'user/fetchUser',
-  async (id: number) => {
-    const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
+  async (userId: number) => {
+    const response = await fetch(
+      `https://jsonplaceholder.typicode.com/users/${userId}`,
+    );
 
     return response.json();
   },
 );
 
-interface UserState {
+export interface UserState {
   data: User | null;
   loading: boolean;
   error: string | null;
@@ -38,7 +40,7 @@ const userSlice = createSlice({
         return {
           ...state,
           loading: false,
-          error: action.error.message || 'Error'
+          error: action.error.message || 'Error',
         };
       });
   },

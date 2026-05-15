@@ -57,7 +57,7 @@ export const TodoList: React.FC = () => {
                 data-cy="selectButton"
                 className="button"
                 onClick={() =>
-                  dispatch(
+                 dispatch(
                     currentTodo?.id === todo.id
                       ? clearCurrentTodo()
                       : setCurrentTodo(todo),
