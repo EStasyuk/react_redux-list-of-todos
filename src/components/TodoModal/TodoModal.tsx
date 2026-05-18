@@ -13,13 +13,11 @@ export const TodoModal: React.FC = () => {
   );
 
   useEffect(() => {
-    console.log('CURRENT TODO:', currentTodo);
-
     if (currentTodo) {
-      console.log('FETCH USER:', currentTodo.userId);
-
       dispatch(fetchUser(currentTodo.userId));
     }
+
+    return () => {};
   }, [currentTodo, dispatch]);
 
   if (!currentTodo) {
@@ -53,7 +51,7 @@ export const TodoModal: React.FC = () => {
             {currentTodo.title}
           </p>
 
-          <p className="block" data-cy="modal-user">
+          <div className="block" data-cy="modal-user">
             {currentTodo.completed ? (
               <strong className="has-text-success">Done</strong>
             ) : (
@@ -67,7 +65,7 @@ export const TodoModal: React.FC = () => {
             ) : (
               'Unknown user'
             )}
-          </p>
+          </div>
         </div>
       </div>
     </div>
