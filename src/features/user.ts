@@ -1,15 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { User } from '../types/User';
+import { getUser } from '../api';
 
 export const fetchUser = createAsyncThunk<User, number>(
   'user/fetchUser',
-  async (userId: number) => {
-    const response = await fetch(
-      `https://jsonplaceholder.typicode.com/users/${userId}.json`,
-    );
-
-    return response.json();
-  },
+  (userId: number) => getUser(userId),
 );
 
 export interface UserState {
